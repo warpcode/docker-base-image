@@ -4,16 +4,17 @@ RUN apk add --no-cache \
         su-exec
 
 ENV TZ=Europe/London \
-    PUID=999 \
-    PGID=999
+    PUID=911 \
+    PGID=911
 
 RUN addgroup -g "$PGID" docker \
     && adduser \
     --home "/home/docker" \
     --disabled-password \
     --gecos "" \
-    --ingroup "chromium" \
+    --ingroup "docker" \
     --no-create-home \
     --uid "$PUID" \
     "docker" \
+     && mkdir -p /home/docker \
      && chown -R docker:docker /home/docker
