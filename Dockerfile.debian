@@ -22,6 +22,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PUID=911 \
     PGID=911
 
+COPY --from=builder /usr/bin/su-exec /usr/bin/su-exec
+
 # Add chromium user
 RUN groupadd -r docker -g "$PGID" \
     && useradd -r -u "$PUID" -g docker -G audio,video docker \
