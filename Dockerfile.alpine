@@ -1,10 +1,9 @@
 FROM alpine:latest
 
-RUN apk add --no-cache
-        \ su-exec
+RUN apk add --no-cache \
+        su-exec
 
-ENV DEBIAN_FRONTEND=noninteractive \
-    TZ=Europe/London \
+ENV TZ=Europe/London \
     PUID=999 \
     PGID=999
 
