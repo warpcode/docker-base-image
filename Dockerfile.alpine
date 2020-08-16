@@ -1,0 +1,20 @@
+FROM alpine:latest
+
+RUN apk add --no-cache
+        \ su-exec
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=Europe/London \
+    PUID=999 \
+    PGID=999
+
+RUN addgroup -g "$PGID" docker \
+    && adduser \
+    --home "/home/docker" \
+    --disabled-password \
+    --gecos "" \
+    --ingroup "chromium" \
+    --no-create-home \
+    --uid "$PUID" \
+    "docker" \
+     && chown -R docker:docker /home/docker
