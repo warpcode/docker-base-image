@@ -1,0 +1,12 @@
+ARG BASE_IMAGE=
+ARG BASE_TAG=
+FROM ${BASE_IMAGE}:${BASE_TAG}
+
+RUN apk add --no-cache curl
+
+# Work out architecture and then install s6 overlay
+RUN OVERLAY_ARCH=$(arch | sed 's/x86_64/amd64/g' | sed 's/armv7l/armhf/g') \
+    && curl -kfLo /tmp/s6-overlay.tar.gz -L \
+	"https://github.com/just-containers/s6-overlay/releases/download/v2.0.0.1/s6-overlay-${OVERLAY_ARCH}.tar.gz" \
+    && tar xfz /tmp/s6-overlay.tar.gz -C / \
+    && rm /tmp/s6-overlay.tar.gz

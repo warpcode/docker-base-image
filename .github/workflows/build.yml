@@ -17,15 +17,4 @@ jobs:
           version: latest
       - name: Build the alpine:latest image
         run: |
-          docker buildx build \
-            --pull \
-            -f Dockerfile.alpine \
-            -t warpcode/alpine:latest \
-            --platform linux/amd64,linux/arm,linux/arm64 .
-      - name: Build the debian:latest image
-        run: |
-          docker buildx build \
-            --pull \
-            -f Dockerfile.debian \
-            -t warpcode/debian:latest \
-            --platform linux/amd64,linux/arm,linux/arm64 .
+          bash build.sh --build prod

@@ -1,4 +1,6 @@
-FROM alpine:latest
+ARG BASE_IMAGE=
+ARG BASE_TAG=
+FROM ${BASE_IMAGE}:${BASE_TAG}
 
 RUN apk add --no-cache \
         su-exec
@@ -6,6 +8,8 @@ RUN apk add --no-cache \
 ENV TZ=Europe/London \
     PUID=911 \
     PGID=911
+
+COPY ./rootfs/ /
 
 RUN addgroup -g "$PGID" docker \
     && adduser \
