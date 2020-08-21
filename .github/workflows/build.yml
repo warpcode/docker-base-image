@@ -14,7 +14,7 @@ jobs:
         id: buildx
         uses: crazy-max/ghaction-docker-buildx@v1
         with:
-          version: latest
+          buildx-version: latest
       - name: Build the alpine:latest image
         run: |
           bash build.sh --build prod
