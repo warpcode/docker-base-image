@@ -15,6 +15,9 @@ jobs:
         uses: crazy-max/ghaction-docker-buildx@v1
         with:
           buildx-version: latest
-      - name: Build the alpine:latest image
+      - name: Build the base su-exec images
         run: |
           bash build.sh --build prod
+      - name: Build the base s6 images
+        run: |
+          echo "TODO"
