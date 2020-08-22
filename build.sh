@@ -45,6 +45,13 @@ if [[ "$BUILD_TYPE" == "dev" ]]; then
     docker buildx inspect --bootstrap
 fi
 
+
+PUSH_IMAGE=
+if [[ "$BUILD_TYPE" == "prod" ]]; then
+    PUSH_IMAGE="--push"
+fi
+
+
 SUCCESSFUL=true
 for i in versions/*; do # Whitespace-safe but not recursive.
     # Clear vars
@@ -123,6 +130,7 @@ for i in versions/*; do # Whitespace-safe but not recursive.
     ARCHITECTURES=${ARCHITECTURES:-linux/amd64,linux/arm,linux/arm64}
 
     docker buildx build \
+        $PUSH_IMAGE \
         --pull \
         -f "Dockerfile.${DOCKERFILE}" \
         -t "$DEST_IMAGE:$DEST_TAG" \
