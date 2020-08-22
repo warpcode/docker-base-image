@@ -23,7 +23,7 @@ jobs:
           echo "$DOCKER_PASS" | docker login -u $DOCKER_USER --password-stdin
       - name: Build the base su-exec images
         run: |
-          bash build.sh --build prod
+          bash build-all.sh --build prod
       - name: Build the base s6 images
         run: |
           echo "TODO"
