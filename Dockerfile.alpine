@@ -3,6 +3,8 @@ ARG BASE_TAG=
 FROM ${BASE_IMAGE}:${BASE_TAG}
 
 RUN apk add --no-cache \
+        tzdata \
+        shadow \
         su-exec
 
 ENV TZ=Europe/London \
@@ -22,3 +24,5 @@ RUN addgroup -g "$PGID" docker \
     "docker" \
      && mkdir -p /home/docker \
      && chown -R docker:docker /home/docker
+
+ENTRYPOINT ["/entrypoint-user.sh"]

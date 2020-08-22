@@ -35,3 +35,5 @@ RUN groupadd -r docker -g "$PGID" \
     && useradd -r -u "$PUID" -g docker -G audio,video docker \
     && mkdir -p /home/docker \
     && chown -R docker:docker /home/docker
+
+ENTRYPOINT ["/bin/bash", "/entrypoint-user.sh"]
