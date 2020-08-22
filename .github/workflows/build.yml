@@ -20,7 +20,7 @@ jobs:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
         run: |
-          echo "$DOCKER_PASS" | docker login -u $DOCKER_USER -p
+          echo "$DOCKER_PASS" | docker login -u $DOCKER_USER --password-stdin
       - name: Build the base su-exec images
         run: |
           bash build.sh --build prod
