@@ -2,7 +2,8 @@ ARG BASE_IMAGE=
 ARG BASE_TAG=
 FROM ${BASE_IMAGE}:${BASE_TAG}
 
-RUN apk add --no-cache \
+RUN apk upgrade \
+    && apk add --no-cache \
         bash \
         curl \
         tzdata \

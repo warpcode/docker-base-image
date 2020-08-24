@@ -66,7 +66,7 @@ if [[ "$BUILD_TYPE" == "dev" ]] && [[ $DISABLE_BUILDER == false ]]; then
     docker buildx inspect --bootstrap
 fi
 
-SUCCESSFUL=true
+SUCCESSFUL=0
 
 # Clear vars
 ARCHITECTURES=
@@ -112,7 +112,6 @@ if [[ "$ARCHITECTURES" != "" ]]; then
     PLATFORM="--platform $ARCHITECTURES"
 fi
 
-set -x
 docker buildx build \
     $PUSH_IMAGE \
     --pull \
@@ -122,15 +121,12 @@ docker buildx build \
     --build-arg BASE_IMAGE="$BASE_IMAGE" \
     --build-arg BASE_TAG="$BASE_TAG" \
     .
-set +x
+
+SUCCESSFUL=$?
 
 if [[ "$BUILD_TYPE" == "dev" ]] && [[ $DISABLE_BUILDER == false ]]; then
     echo "Destroying builder"
     docker buildx rm build-base-images
 fi
 
-if [[ $SUCCESSFUL == false ]]; then
-    exit 1;
-fi
-
-exit 0;
+exit $SUCCESSFUL;
