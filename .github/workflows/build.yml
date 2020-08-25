@@ -3,6 +3,11 @@ name: Build the image
 on:
   push:
     branches: master
+    paths:
+      - versions/*
+      - Dockerfile.*
+      - rootfs/**
+      - build*
 
 jobs:
   build:
