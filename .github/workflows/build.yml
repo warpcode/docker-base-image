@@ -8,6 +8,8 @@ on:
       - Dockerfile.*
       - rootfs/**
       - build*
+  schedule:
+    - cron: "0 0 * * 0"
 
 jobs:
   build:
