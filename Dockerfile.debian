@@ -35,6 +35,12 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
+# Add non-root user
+RUN groupadd docker -g "$PGID" \
+    && useradd -u "$PUID" -g docker docker \
+    && mkdir -p /home/docker \
+    && chown -R docker:docker /home/docker
+
 # Work out architecture and then install s6 overlay
 RUN OVERLAY_ARCH=$(arch | sed 's/x86_64/amd64/g' | sed 's/armv7l/armhf/g') \
     && curl -kfLo /tmp/s6-overlay.tar.gz -L \
@@ -45,11 +51,5 @@ RUN OVERLAY_ARCH=$(arch | sed 's/x86_64/amd64/g' | sed 's/armv7l/armhf/g') \
 COPY ./rootfs/ /
 
 COPY --from=builder /usr/bin/su-exec /usr/bin/su-exec
-
-# Add chromium user
-RUN groupadd -r docker -g "$PGID" \
-    && useradd -r -u "$PUID" -g docker -G audio,video docker \
-    && mkdir -p /home/docker \
-    && chown -R docker:docker /home/docker
 
 ENTRYPOINT ["/init"]
