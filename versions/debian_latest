@@ -1,0 +1,3 @@
+BASE_IMAGE=debian
+BASE_TAG=latest
+DOCKERFILE=debian
