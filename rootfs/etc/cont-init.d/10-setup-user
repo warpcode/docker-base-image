@@ -1,14 +1,14 @@
 #!/usr/bin/with-contenv sh
 
-usermod -o -u "${PUID}" docker >/dev/null 2>&1
-groupmod -o -g "${PGID}" docker >/dev/null 2>&1
+usermod -o -u "${PUID}" app >/dev/null 2>&1
+groupmod -o -g "${PGID}" app >/dev/null 2>&1
 
 echo '
 -------------------------------------
 GID/UID
 -------------------------------------'
 echo "
-User uid:    $(id -u docker)
-User gid:    $(id -g docker)
+User uid:    $(id -u app)
+User gid:    $(id -g app)
 -------------------------------------
 "

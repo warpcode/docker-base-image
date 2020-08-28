@@ -36,10 +36,10 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Add non-root user
-RUN groupadd docker -g "$PGID" \
-    && useradd -u "$PUID" -g docker docker \
-    && mkdir -p /home/docker \
-    && chown -R docker:docker /home/docker
+RUN groupadd app -g "$PGID" \
+    && useradd -u "$PUID" -g app app \
+    && mkdir -p /home/app \
+    && chown -R app:app /home/app
 
 # Work out architecture and then install s6 overlay
 RUN OVERLAY_ARCH=$(arch | sed 's/x86_64/amd64/g' | sed 's/armv7l/armhf/g') \

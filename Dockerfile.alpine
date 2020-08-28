@@ -23,16 +23,15 @@ RUN OVERLAY_ARCH=$(arch | sed 's/x86_64/amd64/g' | sed 's/armv7l/armhf/g') \
 
 COPY ./rootfs/ /
 
-RUN addgroup -g "$PGID" docker \
+RUN addgroup -g "$PGID" app \
     && adduser \
-    --home "/home/docker" \
+    --home "/home/app" \
     --disabled-password \
     --gecos "" \
-    --ingroup "docker" \
-    --no-create-home \
+    --ingroup "app" \
     --uid "$PUID" \
-    "docker" \
-     && mkdir -p /home/docker \
-     && chown -R docker:docker /home/docker
+    "app" \
+     && mkdir -p /home/app \
+     && chown -R app:app /home/app
 
 ENTRYPOINT ["/init"]
