@@ -1,0 +1,3 @@
+BASE_IMAGE=ubuntu
+BASE_TAG=latest
+DOCKERFILE=debian
