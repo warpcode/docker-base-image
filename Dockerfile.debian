@@ -27,12 +27,15 @@ FROM ${BASE_IMAGE}:${BASE_TAG}
 ENV DEBIAN_FRONTEND=noninteractive \
     TZ=Europe/London \
     PUID=911 \
-    PGID=911
+    PGID=911 \
+    S6_VERSION=v2.0.0.1
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         curl \
+        tzdata \
     && apt-get autoremove -y \
+    && apt-get autoclean -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Add non-root user
@@ -41,14 +44,8 @@ RUN groupadd app -g "$PGID" \
     && mkdir -p /home/app \
     && chown -R app:app /home/app
 
-# Work out architecture and then install s6 overlay
-RUN OVERLAY_ARCH=$(arch | sed 's/x86_64/amd64/g' | sed 's/armv7l/armhf/g') \
-    && curl -kfLo /tmp/s6-overlay.tar.gz -L \
-	"https://github.com/just-containers/s6-overlay/releases/download/v2.0.0.1/s6-overlay-${OVERLAY_ARCH}.tar.gz" \
-    && tar xfz /tmp/s6-overlay.tar.gz -C / \
-    && rm /tmp/s6-overlay.tar.gz
-
 COPY ./rootfs/ /
+RUN /etc/warpcode/setup/install_s6.sh
 
 COPY --from=builder /usr/bin/su-exec /usr/bin/su-exec
 
