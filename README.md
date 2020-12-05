@@ -27,3 +27,22 @@ There are also additional scripts installed to handle:
 | PGID | Group ID of the internal non-root group |
 | TZ   | Timezone. Default: Europe/London        |
 
+
+## Entrypoints
+### /init
+`/init` is the default entry point and is designed for service containers.
+
+### /init-single
+`/init-single` is an entrypoint designed for single run applications.
+
+Rather than using s6's de-escalation binaries where I had issues with the user environment not being set up correctly, it will use su-exec.
+
+This is essentially a wrapper around `/init` and if no arguments are passed, it will run bash in the default user environment.
+
+If creating a container and you always want to force a command, setup the entrypoint of the container like so
+
+```
+ENTRYPOINT ["/init-single", "application"]
+```
+
+This will allow `CMD` to just pass arguments to your specified application.

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+APP="$@"
+if [[ -z "$@" ]]; then
+    APP="bash"
+fi
+
+# Work out where su-exec is installed
+SUEXEC=$(command -v /sbin/su-exec)
+if [[ -z "$SUEXEC" ]]; then
+    SUEXEC=$(command -v /usr/bin/su-exec)
+fi
+
+exec /init "${SUEXEC}" app:app $APP
