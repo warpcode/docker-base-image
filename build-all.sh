@@ -23,6 +23,8 @@ do
 done
 
 if [[ "$BUILD_TYPE" == "dev" ]]; then
+    export DOCKER_CLI_EXPERIMENTAL=enabled
+
     echo "Setting up builder"
     docker buildx create --name=build-base-images --platform linux/amd64,linux/arm/v7,linux/arm64
     docker buildx use build-base-images
