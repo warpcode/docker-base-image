@@ -1,27 +1,6 @@
 ARG BASE_IMAGE=
 ARG BASE_TAG=
 
-# Build su-exec
-FROM ${BASE_IMAGE}:${BASE_TAG} as builder
-
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        gcc \
-        libc-dev \
-        curl \
-    && curl -k -fLo /tmp/su-exec.c https://raw.githubusercontent.com/ncopa/su-exec/master/su-exec.c \
-    && rm -rf /var/lib/apt/lists/* \
-    && gcc -Wall /tmp/su-exec.c -o /usr/bin/su-exec \
-    && chown root:root /usr/bin/su-exec \
-    && chmod 700 /usr/bin/su-exec \
-    && rm /tmp/su-exec.c \
-    && apt purge -y \
-        gcc \
-        libc-dev \
-        curl \
-    && apt-get autoremove -y
-
-# Build the main image
 FROM ${BASE_IMAGE}:${BASE_TAG}
 
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -30,23 +9,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PGID=911 \
     S6_VERSION=v2.1.0.2
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        curl \
-        tzdata \
-    && apt-get autoremove -y \
-    && apt-get autoclean -y \
-    && rm -rf /var/lib/apt/lists/*
-
-# Add non-root user
-RUN groupadd app -g "$PGID" \
-    && useradd -u "$PUID" -g app app \
-    && mkdir -p /home/app \
-    && chown -R app:app /home/app
-
 COPY ./rootfs/ /
-RUN /etc/warpcode/setup/install_s6.sh
-
-COPY --from=builder /usr/bin/su-exec /usr/bin/su-exec
+RUN /etc/warpcode/setup/setup_default_user.sh \
+    && /etc/warpcode/setup/install_base_packages.sh \
+    && /etc/warpcode/setup/install_s6.sh
 
 ENTRYPOINT ["/init"]
