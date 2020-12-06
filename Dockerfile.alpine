@@ -13,7 +13,7 @@ RUN apk upgrade \
 ENV TZ=Europe/London \
     PUID=911 \
     PGID=911 \
-    S6_VERSION=v2.0.0.1
+    S6_VERSION=v2.1.0.2
 
 COPY ./rootfs/ /
 RUN /etc/warpcode/setup/install_s6.sh
