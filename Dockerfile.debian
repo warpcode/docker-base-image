@@ -10,8 +10,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     S6_VERSION=v2.1.0.2
 
 COPY ./rootfs/ /
-RUN /etc/warpcode/setup/setup_default_user.sh \
-    && /etc/warpcode/setup/install_base_packages.sh \
+RUN /etc/warpcode/setup/install_base_packages.sh \
+    && /etc/warpcode/setup/setup_default_user.sh \
     && /etc/warpcode/setup/install_s6.sh
 
 ENTRYPOINT ["/init"]
