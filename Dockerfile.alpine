@@ -2,31 +2,14 @@ ARG BASE_IMAGE=
 ARG BASE_TAG=
 FROM ${BASE_IMAGE}:${BASE_TAG}
 
-RUN apk upgrade \
-    && apk add --no-cache \
-        bash \
-        curl \
-        tzdata \
-        shadow \
-        su-exec
-
 ENV TZ=Europe/London \
     PUID=911 \
     PGID=911 \
     S6_VERSION=v2.1.0.2
 
 COPY ./rootfs/ /
-RUN /etc/warpcode/setup/install_s6.sh
-
-RUN addgroup -g "$PGID" app \
-    && adduser \
-    --home "/home/app" \
-    --disabled-password \
-    --gecos "" \
-    --ingroup "app" \
-    --uid "$PUID" \
-    "app" \
-     && mkdir -p /home/app \
-     && chown -R app:app /home/app
+RUN /etc/warpcode/setup/setup_default_user.sh \
+    && /etc/warpcode/setup/install_base_packages.sh \
+    && /etc/warpcode/setup/install_s6.sh
 
 ENTRYPOINT ["/init"]
