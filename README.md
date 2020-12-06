@@ -35,7 +35,8 @@ There are also additional scripts installed to handle:
 ### /init-single
 `/init-single` is an entrypoint designed for single run applications.
 
-Rather than using s6's de-escalation binaries where I had issues with the user environment not being set up correctly, it will use su-exec.
+Rather than using s6's de-escalation binaries where I had issues with the user environment not being set up correctly,
+it will use su-exec on systems where it's installable (ie alpine) or gosu.
 
 This is essentially a wrapper around `/init` and if no arguments are passed, it will run bash in the default user environment.
 
