@@ -15,7 +15,7 @@ This repository will mostly support the `latest` tags of supported base images.
 In some instances, other major version tags will be supported but it depends on the base image.
 
 ## Usage
-The image supplied is a base OS images with both [s6-overlay](https://github.com/just-containers/s6-overlay) and su-exec installed.
+The image supplied is a base OS images with both [s6-overlay](https://github.com/just-containers/s6-overlay) and su-exec/gosu installed.
 There are also additional scripts installed to handle:
 * Changing the user ID and group ID of the provided default user.
 * Changing the timezone within the image
