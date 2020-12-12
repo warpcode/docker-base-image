@@ -1,0 +1,1 @@
+DOCKER_BASE_IMAGE=alpine:latest

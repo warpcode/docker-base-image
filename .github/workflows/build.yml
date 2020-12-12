@@ -1,15 +1,12 @@
-name: Build the image
+name: Test image builds
 
 on:
   push:
     branches: master
     paths:
-      - versions/*
       - Dockerfile.*
       - rootfs/**
-      - build*
-  schedule:
-    - cron: "0 0 * * 0"
+      - Makefile
 
 jobs:
   build:
@@ -22,12 +19,6 @@ jobs:
         uses: crazy-max/ghaction-docker-buildx@v1
         with:
           buildx-version: latest
-      - name: Docker login
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-        run: |
-          echo "$DOCKER_PASS" | docker login -u $DOCKER_USER --password-stdin
       - name: Build the base images
         run: |
-          bash build-all.sh --build prod
+          make build-test-alpine-edge

@@ -1,3 +1,0 @@
-BASE_IMAGE=ubuntu
-BASE_TAG=20.04
-DOCKERFILE=debian
