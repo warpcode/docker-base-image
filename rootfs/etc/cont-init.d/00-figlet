@@ -1,3 +1,0 @@
-#!/usr/bin/with-contenv bash
-
-cat /etc/warpcode/banner.txt
