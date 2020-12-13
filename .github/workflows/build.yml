@@ -21,4 +21,4 @@ jobs:
           buildx-version: latest
       - name: Build the base images
         run: |
-          make build-test-alpine-edge
+          make build-test-all
