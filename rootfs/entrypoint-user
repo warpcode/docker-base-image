@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+for i in $(ls /etc/warpcode/init/*.sh | sort -V)
+do
+    . "$i"
+done
+
+exec dumb-init -- "${SUEXEC}" ${PUID}:${PGID} $APP
+

@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+set -e
+
+for i in $(ls /etc/warpcode/init/*.sh | sort -V)
+do
+    . "$i"
+done
+
+exec dumb-init -- $APP
+

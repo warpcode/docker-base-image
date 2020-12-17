@@ -12,7 +12,7 @@ DOCKER_CLI_EXPERIMENTAL := enabled
 VERSION_FILES := $(notdir $(wildcard versions/*))
 export DOCKER_CLI_EXPERIMENTAL
 
-.PHONY: build-test-all $(addprefix build-test-,$(VERSION_FILES)) $(addprefix build-docker-load-,$(VERSION_FILES))
+.PHONY: release build-test-all $(addprefix build-test-,$(VERSION_FILES)) $(addprefix build-docker-load-,$(VERSION_FILES))
 
 build-test-all: $(addprefix build-test-,$(VERSION_FILES))
 build-local-test-all: builder-setup build-test-all builder-destroy
@@ -21,8 +21,9 @@ define build_tests_template =
     .PHONY: build-local-test-$(1) build-test-$(1) build-docker-load-$(1)
 
     build-local-test-$(1): builder-setup build-test-$(1) builder-destroy
+    build-local-docker-$(1): builder-setup build-docker-load-$(1) builder-destroy
 
-    build-test-$(1):
+    build-test-$(1): release
 	    @source "versions/$(1)"; \
 		DOCKER_BASE_IMAGE=$$$${DOCKER_BASE_IMAGE}; \
 		DOCKER_DEST_IMAGE=$$$${DOCKER_DEST_IMAGE:-$$$${DOCKER_BASE_IMAGE}}; \
@@ -59,3 +60,6 @@ builder-setup:
 
 builder-destroy:
 	docker buildx rm "$(BUILDER_NAME)"
+
+release:
+	tar -c -C rootfs/ -zvf release.tar.gz .

@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=
 FROM ${BASE_IMAGE}
 
-COPY ./install.sh /
-RUN /install.sh && rm /install.sh
+COPY ./release.tar.gz /tmp
+RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/release.tar.gz
 
-ENTRYPOINT ["/entry-user.sh"]
+ENTRYPOINT ["/entrypoint-user"]
