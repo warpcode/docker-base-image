@@ -19,5 +19,3 @@ then
         gosu \
         dumb-init
 fi
-
-pkg_clean
