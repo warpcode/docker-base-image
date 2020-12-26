@@ -6,7 +6,7 @@ Setup directories and permissions
 -------------------------------------'
 
 for i in config data; do
-    if [[ ! -d "/$i" ]]; then
+    if [ ! -d "/$i" ]; then
         echo "creating /$i"
         mkdir "/$i"
         chown app:app "/$i"
