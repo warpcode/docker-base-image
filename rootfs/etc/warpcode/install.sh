@@ -10,3 +10,9 @@ for i in $(ls ${INSTALL_SCRIPT_DIR}/install/*.sh | sort -V)
 do
     . "$i"
 done
+
+# Remove install dirs
+rm -rf "${INSTALL_SCRIPT_DIR}/install"
+
+# Remove this script
+rm -f "$0"
