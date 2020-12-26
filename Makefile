@@ -62,4 +62,4 @@ builder-destroy:
 	docker buildx rm "$(BUILDER_NAME)"
 
 release:
-	tar -c -C rootfs/ -zvf release.tar.gz .
+	tar -c -C rootfs/ -zvf release.tar.gz --owner=0 --group=0 .
