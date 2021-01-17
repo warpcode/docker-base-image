@@ -23,6 +23,22 @@ define build_tests_template =
     build-local-test-$(1): builder-setup build-test-$(1) builder-destroy
     build-local-docker-$(1): builder-setup build-docker-load-$(1) builder-destroy
 
+    build-local-docker-run-$(1): build-local-docker-$(1)
+	    @source "versions/$(1)"; \
+		DOCKER_BASE_IMAGE=$$$${DOCKER_BASE_IMAGE}; \
+		DOCKER_DEST_IMAGE=$$$${DOCKER_DEST_IMAGE:-$$$${DOCKER_BASE_IMAGE}}; \
+		DOCKER_FILE=$$$${DOCKER_FILE:-$$(DOCKER_FILE)}; \
+		DOCKER_USER=$$$${DOCKER_USER:-$$(DOCKER_USER)}; \
+		docker run \
+            --name "docker-base-image-$(1)-$$$${RANDOM}" \
+            --rm \
+            -it \
+            -e DEBUG_CONTAINER=1 \
+            -e PUID=$(shell id -u) \
+            -e PGID=$(shell id -g) \
+            "$$$${DOCKER_USER}/$$$${DOCKER_DEST_IMAGE}" \
+            /bin/sh
+
     build-test-$(1): release
 	    @source "versions/$(1)"; \
 		DOCKER_BASE_IMAGE=$$$${DOCKER_BASE_IMAGE}; \
