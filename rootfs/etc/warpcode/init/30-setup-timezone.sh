@@ -5,5 +5,6 @@ if [ -n "${TZ:-}" ]; then
         rm -f /etc/localtime
         cp "/usr/share/zoneinfo/${TZ}" /etc/localtime
         echo "${TZ}" > /etc/timezone
+        output_log "Setting Timezone to ${TZ}"
     fi
 fi

@@ -2,6 +2,7 @@
 
 for i in config data; do
     if [ -d "/$i" ]; then
-        chown app:app "/$i"
+        output_log "Setting owner of /$i to ${PUID}:${PGID}"
+        chown ${PUID}:${PGID} "/$i"
     fi
 done
