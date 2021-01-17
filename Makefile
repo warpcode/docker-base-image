@@ -37,7 +37,7 @@ define build_tests_template =
             --build-arg BASE_IMAGE="$$$${DOCKER_BASE_IMAGE}" \
             .
 
-    build-docker-load-$(1):
+    build-docker-load-$(1): release
 	    @source "versions/$(1)"; \
 		DOCKER_BASE_IMAGE=$$$${DOCKER_BASE_IMAGE}; \
 		DOCKER_DEST_IMAGE=$$$${DOCKER_DEST_IMAGE:-$$$${DOCKER_BASE_IMAGE}}; \
