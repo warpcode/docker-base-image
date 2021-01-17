@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+DEBUG_CONTAINER="${DEBUG_CONTAINER:-0}"
 APP="${@:-sh}"
 TZ=${TZ:-Europe/London}
 USERNAME=${USERNAME:-app}

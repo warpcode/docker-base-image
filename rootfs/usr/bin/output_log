@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+if [ "${DEBUG_CONTAINER}" = "1" ]; then
+    echo "$@"
+fi
+
