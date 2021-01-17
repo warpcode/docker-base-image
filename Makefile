@@ -59,7 +59,10 @@ builder-setup:
 	docker buildx inspect --bootstrap
 
 builder-destroy:
-	docker buildx rm "$(BUILDER_NAME)"
+	docker buildx rm "$(BUILDER_NAME)" || exit 0
 
 release:
 	tar -c -C rootfs/ -zvf release.tar.gz --owner=0 --group=0 .
+
+clean: builder-destroy
+	test -e release.tar.gz && rm release.tar.gz || exit 0
