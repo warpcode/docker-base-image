@@ -23,11 +23,12 @@ RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/r
 ```
 
 ## Environment Variables
-| ENV  | DESCRIPTION                             |
-|------|-----------------------------------------|
-| PUID | User ID of the internal non-root user   |
-| PGID | Group ID of the internal non-root group |
-| TZ   | Timezone. Default: Europe/London        |
+| ENV   | DESCRIPTION                             | DEFAULT       |
+|-------|-----------------------------------------|---------------|
+| PUID  | User ID of the internal non-root user   | 911           |
+| PGID  | Group ID of the internal non-root group | 911           |
+| TZ    | Set the timezone                        | Europe/London |
+| UMASK | Set the default umask                   | 0022          |
 
 
 ## Entrypoints
