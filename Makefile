@@ -36,6 +36,7 @@ define build_tests_template =
             -e DEBUG_CONTAINER=1 \
             -e PUID=$(shell id -u) \
             -e PGID=$(shell id -g) \
+            -e TZ=UTC \
             -e UMASK=0002 \
             "$$$${DOCKER_USER}/$$$${DOCKER_DEST_IMAGE}" \
             /bin/sh
