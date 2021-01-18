@@ -15,7 +15,7 @@ These scripts were tested on alpine, debian and ubuntu official images.
 This script is tested using Docker's Buildx CLI plugin to test multiple architectures
 
 ## Usage
-To install to the docker image, the following commands can be used
+To install to the docker image, the following commands can be used.
 Replace `{VERSION}` with the version you wish to install
 ```
 ADD https://github.com/warpcode/docker-base-image/releases/download/v{VERSION}/release.tar.gz /tmp/release.tar.gz
