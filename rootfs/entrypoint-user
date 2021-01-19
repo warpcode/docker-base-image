@@ -1,10 +1,6 @@
 #!/usr/bin/env sh
 
-for i in $(ls /etc/warpcode/init/*.sh | sort -V)
-do
-    output_log "Including file $i"
-    . "$i"
-done
+. /etc/warpcode/init.sh
 
 exec dumb-init -- "${SUEXEC}" ${PUID}:${PGID} $APP
 
