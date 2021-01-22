@@ -30,6 +30,12 @@ RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/r
 | TZ    | Set the timezone                        | Europe/London |
 | UMASK | Set the default umask                   | 0022          |
 
+## Install only Environment Variables
+| ENV                | DESCRIPTION                                             | DEFAULT       |
+|--------------------|---------------------------------------------------------|---------------|
+| EXTRA_PACKAGES     | Extra Packages to install regardless of package manager |               |
+| EXTRA_APK_PACKAGES | Extra Packages to install only for APK (Alpine)         |               |
+| EXTRA_APT_PACKAGES | Extra Packages to install only for APT (Debian/Ubuntu)  |               |
 
 ## Entrypoints
 ### /entrypoint

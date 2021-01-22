@@ -1,21 +1,22 @@
 #!/usr/bin/env sh
 
+PACKAGES="dumb-init"
+PACKAGES="${PACKAGES} tzdata"
+
 #
 # Install base packages
 #
 if command -v apk > /dev/null
 then
-    # Alpine
-    pkg_install \
-        tzdata \
-        shadow \
-        su-exec \
-        dumb-init
+    PACKAGES="${PACKAGES} shadow"
+    PACKAGES="${PACKAGES} su-exec"
+    PACKAGES="${PACKAGES} ${EXTRA_PACKAGES_APK}"
 elif  command -v apt-get > /dev/null
 then
-    # Debian
-    pkg_install \
-        tzdata \
-        gosu \
-        dumb-init
+    PACKAGES="${PACKAGES} gosu"
+    PACKAGES="${PACKAGES} ${EXTRA_PACKAGES_APT}"
+
 fi
+
+PACKAGES="${PACKAGES} ${EXTRA_PACKAGES}"
+pkg_install $PACKAGES
