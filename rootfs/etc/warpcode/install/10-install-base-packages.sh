@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 PACKAGES="dumb-init"
+PACKAGES="${PACKAGES} curl"
 PACKAGES="${PACKAGES} tzdata"
 
 #
