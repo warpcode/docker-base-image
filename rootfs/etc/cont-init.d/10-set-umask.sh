@@ -1,8 +1,8 @@
-#!/usr/bin/env sh
+#!/usr/bin/with-contenv sh
 
 if [ -n "${UMASK:-}" ]; then
     if [ "${UMASK}" != "$(umask)" ]; then
-        output_log "Setting umask to ${UMASK} from $(umask)"
+        s6-echo -- "[cont-init.d] Setting umask to ${UMASK} from $(umask)"
         umask ${UMASK}
     fi
 fi
