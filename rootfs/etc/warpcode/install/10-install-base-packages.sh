@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 
 PACKAGES="dumb-init"
+PACKAGES="${PACKAGES} bash"
+PACKAGES="${PACKAGES} ca-certificates"
 PACKAGES="${PACKAGES} curl"
 PACKAGES="${PACKAGES} tzdata"
 
