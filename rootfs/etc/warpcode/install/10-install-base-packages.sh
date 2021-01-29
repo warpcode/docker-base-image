@@ -12,11 +12,9 @@ PACKAGES="${PACKAGES} tzdata"
 if command -v apk > /dev/null
 then
     PACKAGES="${PACKAGES} shadow"
-    PACKAGES="${PACKAGES} su-exec"
     PACKAGES="${PACKAGES} ${EXTRA_PACKAGES_APK}"
 elif  command -v apt-get > /dev/null
 then
-    PACKAGES="${PACKAGES} gosu"
     PACKAGES="${PACKAGES} ${EXTRA_PACKAGES_APT}"
 
 fi
