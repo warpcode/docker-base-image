@@ -1,0 +1,55 @@
+#!/usr/bin/with-contenv bash
+# vim: set ft=sh :
+
+APP_EXEC=()
+USER_ID=""
+GROUP_ID=""
+GROUP_ID_LIST=""
+
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        -u|--uid)
+            USER_ID="$2"
+            shift # past argument
+            shift # past value
+            ;;
+        -g|--gid)
+            GROUP_ID="$2"
+            shift # past argument
+            shift # past value
+            ;;
+        -l|--gid-list)
+            GROUP_ID_LIST="$2"
+            shift # past argument
+            shift # past value
+            ;;
+        --)
+            shift # remove "--"
+            APP_EXEC="$@"
+            break # once we hit --, we determine this as being the end of our args
+            ;;
+        *) # unknown option
+            APP_EXEC+=("$1") # save it in an array for later
+            shift
+            ;;
+    esac
+done
+
+if [ -z "$APP_EXEC" ]; then
+    echo "No command specified"
+    exit 127
+fi
+
+SET_UID_GID=""
+if [ -n "$USER_ID" ] && [ -n "$GROUP_ID" ]; then
+    if [ -n "${GROUP_ID_LIST:-}" ]; then
+        SET_UID_GID="s6-applyuidgid -u $USER_ID -g $GROUP_ID -G $GROUP_ID_LIST"
+    else
+        SET_UID_GID="s6-setuidgid $USER_ID:$GROUP_ID"
+    fi
+fi
+
+exec 2>&1 $APP_NICE_CMD $SET_UID_GID $APP_EXEC
