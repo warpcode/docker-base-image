@@ -34,7 +34,7 @@ do
 done
 
 
-if [ -z "$EXIT_CODE" ];
+if [ -n "$EXIT_CODE" ];
 then
     # Make sure /var/run/s6/env-stage3/S6_STAGE2_EXITED exists.  The
     # non-presence of this file indicates that stage2 is not completed yet and
@@ -42,7 +42,7 @@ then
     s6-maximumtime 5000 sh -c "while [ ! -f /var/run/s6/env-stage3/S6_STAGE2_EXITED ]; do sleep 1; done" 2>/dev/null
 fi
 
-if [ -z "$SERVICE_NAME" ];
+if [ -n "$SERVICE_NAME" ];
 then
     # Make sure we are not restarted.
     touch /var/run/s6/services/$SERVICE_NAME/down
@@ -50,7 +50,7 @@ then
 fi
 
 
-if [ -z "$EXIT_CODE" ];
+if [ -n "$EXIT_CODE" ];
 then
     # Use the forced exit code if needed.
     echo $EXIT_CODE > /var/run/s6/env-stage3/S6_STAGE2_EXITED
