@@ -55,7 +55,7 @@ RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/r
 ## Binaries
 
 ### finish-service
-Only to be called by the root user. The main purpose is to be ran inside the `finish` script of a service.
+Only to be called by the root user. The main purpose is to be ran inside the `finish` script of a service that would bring down a container.
 
 You can specify an exit code to force an exit code into `S6_STAGE2_EXITED` but this should only be called if you have
 a main service.
@@ -64,7 +64,6 @@ Example usage
 ```
 exec /usr/bin/finish-service -e 127 -s myapp
 ```
-
 
 ### run-app
 A convenient wrapper around s6-applyuidgid and s6-setuidgid. When no uid or gid is supplied, the command is ran directly.
@@ -87,3 +86,9 @@ For example, the below is how to install lastpass-cli on alpine images
 RUN pkg_install lastpass-cli
 ```
 
+### run-cmd
+This adds a middle step for s6's /init when running commands via CMD.
+
+When a CMD is detected, it is written to an environment variable which can be altered like any other environment variable.
+
+The /init system will call run-cmd to handle whether to run the CMD as the root user or de-escalate priveleges
