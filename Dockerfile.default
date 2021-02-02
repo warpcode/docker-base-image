@@ -7,9 +7,8 @@ ARG EXTRA_PACKAGES_APK=lynx \
 # ENV S6_LOGGING=1 \
 #     S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
-
 COPY ./release.tar.gz /tmp
 RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/release.tar.gz
 
-ENTRYPOINT ["/init"]
+ENTRYPOINT ["/entrypoint"]
 CMD ["sh"]
