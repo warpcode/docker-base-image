@@ -52,4 +52,4 @@ if [ -n "$USER_ID" ] && [ -n "$GROUP_ID" ]; then
     fi
 fi
 
-exec 2>&1 $APP_NICE_CMD $SET_UID_GID $APP_EXEC
+exec 2>&1 $SET_UID_GID $APP_EXEC

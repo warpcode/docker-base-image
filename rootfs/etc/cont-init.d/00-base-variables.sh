@@ -7,7 +7,6 @@ export UMASK=${UMASK:-0022}
 export USERNAME=${USERNAME:-app}
 export USERGROUP=${USERGROUP:-app}
 
-# detect our privelage deescalation
 if command -v /bin/s6-dumpenv > /dev/null
 then
     # Sync base variables for the rest of s6
