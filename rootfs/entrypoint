@@ -2,7 +2,12 @@
 
 set -e
 
-. /etc/warpcode/init.sh
+export S6_BEHAVIOUR_IF_STAGE2_FAILS=${S6_BEHAVIOUR_IF_STAGE2_FAILS:-2}
+export RUN_CMD="$@"
 
-exec dumb-init -- $APP
-
+if [ -n "$RUN_CMD" ]; then
+    export S6_LOGGING=${S6_LOGGING:-1}
+    exec /init run-cmd
+else
+    exec /init
+fi

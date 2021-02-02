@@ -25,6 +25,7 @@ RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/r
 ## Environment Variables
 | ENV                 | DESCRIPTION                                        | DEFAULT       |
 |---------------------|----------------------------------------------------|---------------|
+| CMD_AS_ROOT         | Run the CMD as root user                           | 0             |
 | PUID                | User ID of the internal non-root user              | 911           |
 | PGID                | Group ID of the internal non-root group            | 911           |
 | PGID_LIST           | Group IDs list to pass to s6-setuidgid             |               |
@@ -33,9 +34,11 @@ RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/r
 
 
 ## Overriden S6 Variables
-| ENV                          | DESCRIPTION                                | DEFAULT |
-|------------------------------|--------------------------------------------|---------|
-| S6_BEHAVIOUR_IF_STAGE2_FAILS | Changed to fail when our app service fails | 2       |
+| ENV                          | DESCRIPTION                                | DEFAULT      |
+|------------------------------|--------------------------------------------|--------------|
+| S6_BEHAVIOUR_IF_STAGE2_FAILS | Changed to fail when our app service fails | 2            |
+| S6_LOGGING                   | Changed when a CMD is detected             | 1 (With CMD) |
+
 
 ## Install only Environment Variables
 | ENV                | DESCRIPTION                                             | DEFAULT       |

@@ -1,0 +1,16 @@
+#!/usr/bin/with-contenv bash
+# vim: set ft=sh :
+
+if [ -z "$RUN_CMD" ]; then
+    echo "RUN_CMD not set"
+    exit 127
+fi
+
+COMMAND="run-app"
+
+if [ "${CMD_AS_ROOT:-0}" -eq "0"  ]; then
+    [ -n "$PUID" ] && COMMAND="${COMMAND} -u $PUID"
+    [ -n "$PGID" ] && COMMAND="${COMMAND} -g $PGID"
+fi
+
+exec 2>&1 $COMMAND -- $RUN_CMD
