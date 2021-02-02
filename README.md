@@ -23,12 +23,19 @@ RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/r
 ```
 
 ## Environment Variables
-| ENV   | DESCRIPTION                             | DEFAULT       |
-|-------|-----------------------------------------|---------------|
-| PUID  | User ID of the internal non-root user   | 911           |
-| PGID  | Group ID of the internal non-root group | 911           |
-| TZ    | Set the timezone                        | Europe/London |
-| UMASK | Set the default umask                   | 0022          |
+| ENV                 | DESCRIPTION                                        | DEFAULT       |
+|---------------------|----------------------------------------------------|---------------|
+| PUID                | User ID of the internal non-root user              | 911           |
+| PGID                | Group ID of the internal non-root group            | 911           |
+| PGID_LIST           | Group IDs list to pass to s6-setuidgid             |               |
+| TZ                  | Set the timezone                                   | Europe/London |
+| UMASK               | Set the default umask                              | 0022          |
+
+
+## Overriden S6 Variables
+| ENV                          | DESCRIPTION                                | DEFAULT |
+|------------------------------|--------------------------------------------|---------|
+| S6_BEHAVIOUR_IF_STAGE2_FAILS | Changed to fail when our app service fails | 2       |
 
 ## Install only Environment Variables
 | ENV                | DESCRIPTION                                             | DEFAULT       |
@@ -41,10 +48,30 @@ RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/r
 ### /entrypoint
 `/entrypoint` is the default entry point.
 
-### /entrypoint-user
-`/entrypoint-user` is an entrypoint designed for applications you want to run as general user other than root.
 
 ## Binaries
+
+### finish-service
+Only to be called by the root user. The main purpose is to be ran inside the `finish` script of a service.
+
+You can specify an exit code to force an exit code into `S6_STAGE2_EXITED` but this should only be called if you have
+a main service.
+
+Example usage
+```
+exec /usr/bin/finish-service -e 127 -s myapp
+```
+
+
+### run-app
+A convenient wrapper around s6-applyuidgid and s6-setuidgid. When no uid or gid is supplied, the command is ran directly.
+
+However, when a uid and gid is supplied, it will set the running user to the supplied uid and gid
+
+Example usage
+```
+exec  /usr/bin/run-app -u 1000 -g 1000 -- id -u
+```
 
 ### pkg_install
 Included is a simple wrapper around the systems package manager to install packages
