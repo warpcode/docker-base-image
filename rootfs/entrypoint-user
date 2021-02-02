@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-
-. /etc/warpcode/init.sh
-
-exec dumb-init -- "${SUEXEC}" ${PUID}:${PGID} $APP
-
