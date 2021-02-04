@@ -73,7 +73,7 @@ if [ "$CURRENT_USER_ID" -eq "0" ]; then
         fi
 
         if [ -z "$GROUP_ID" ]; then
-            echo "uid has not been set"
+            echo "gid has not been set"
             exit 1;
         fi
 
