@@ -92,3 +92,12 @@ This adds a middle step for s6's /init when running commands via CMD.
 When a CMD is detected, it is written to an environment variable which can be altered like any other environment variable.
 
 The /init system will call run-cmd to handle whether to run the CMD as the root user or de-escalate priveleges
+
+## S6 Overlay Documentation
+* Make sure to read the [S6 overlay documentation].  It contains information
+that can help building your image.  For example, the S6 overlay allows you to
+easily add initialization scripts and services.
+
+[S6 overlay documentation]: https://github.com/just-containers/s6-overlay/blob/master/README.md
+
+[TimeZone]: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
