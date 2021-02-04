@@ -6,11 +6,4 @@ if [ -z "$RUN_CMD" ]; then
     exit 127
 fi
 
-COMMAND="run-app"
-
-if [ "${CMD_AS_ROOT:-0}" -eq "0"  ]; then
-    [ -n "$PUID" ] && COMMAND="${COMMAND} -u $PUID"
-    [ -n "$PGID" ] && COMMAND="${COMMAND} -g $PGID"
-fi
-
-exec 2>&1 $COMMAND -- $RUN_CMD
+exec 2>&1 run-app -e -- $RUN_CMD
