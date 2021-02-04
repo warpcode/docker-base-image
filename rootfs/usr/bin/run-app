@@ -1,16 +1,31 @@
 #!/usr/bin/with-contenv bash
 # vim: set ft=sh :
 
+FROM_ENV=0
 APP_EXEC=()
 USER_ID=""
 GROUP_ID=""
 GROUP_ID_LIST=""
+RUN_AS_ROOT=0
 
 while [[ $# -gt 0 ]]
 do
     key="$1"
 
     case $key in
+        -e|--from-env)
+            FROM_ENV=1
+            # Set vars from environment vars
+            USER_ID="$PUID"
+            GROUP_ID="$PGID"
+            GROUP_ID_LIST="$PGID_LIST"
+            RUN_AS_ROOT="${CMD_AS_ROOT:-0}"
+            shift # past argument
+            ;;
+        -r|--run-as-root)
+            RUN_AS_ROOT=1
+            shift # past argument
+            ;;
         -u|--uid)
             USER_ID="$2"
             shift # past argument
@@ -43,12 +58,35 @@ if [ -z "$APP_EXEC" ]; then
     exit 127
 fi
 
+CURRENT_USER_ID=$(id -u)
 SET_UID_GID=""
-if [ -n "$USER_ID" ] && [ -n "$GROUP_ID" ]; then
-    if [ -n "${GROUP_ID_LIST:-}" ]; then
-        SET_UID_GID="s6-applyuidgid -u $USER_ID -g $GROUP_ID -G $GROUP_ID_LIST"
-    else
-        SET_UID_GID="s6-setuidgid $USER_ID:$GROUP_ID"
+# Only root can descalate privelages
+# if a user specifies the new USER_ID feature of docker, we also don't want to descalate
+if [ "$CURRENT_USER_ID" -eq "0" ]; then
+
+    # Only descalate if we have not specified to run as root
+    if [ "$RUN_AS_ROOT" -eq "0" ]; then
+
+        if [ -z "$USER_ID" ]; then
+            echo "uid has not been set"
+            exit 1;
+        fi
+
+        if [ -z "$GROUP_ID" ]; then
+            echo "uid has not been set"
+            exit 1;
+        fi
+
+        if [ "$USER_ID" -eq "0" ]; then
+            echo "uid cannot be 0"
+            exit 1;
+        fi
+
+        if [ -n "${GROUP_ID_LIST:-}" ]; then
+            SET_UID_GID="s6-applyuidgid -u $USER_ID -g $GROUP_ID -G $GROUP_ID_LIST"
+        else
+            SET_UID_GID="s6-setuidgid $USER_ID:$GROUP_ID"
+        fi
     fi
 fi
 
