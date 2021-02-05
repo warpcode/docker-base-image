@@ -1,12 +1,15 @@
 #!/usr/bin/with-contenv bash
 # vim: set ft=sh :
 
+CURRENT_USER_ID=$(id -u)
 FROM_ENV=0
 APP_EXEC=()
 USER_ID=""
 GROUP_ID=""
 GROUP_ID_LIST=""
 RUN_AS_ROOT=0
+HOME_DIR_ROOT=""
+HOME_DIR_USER=""
 
 while [[ $# -gt 0 ]]
 do
@@ -20,6 +23,8 @@ do
             GROUP_ID="$PGID"
             GROUP_ID_LIST="$PGID_LIST"
             RUN_AS_ROOT="${CMD_AS_ROOT:-0}"
+            HOME_DIR_ROOT="$HOME_ROOT"
+            HOME_DIR_USER="$HOME_USER"
             shift # past argument
             ;;
         -r|--run-as-root)
@@ -41,6 +46,12 @@ do
             shift # past argument
             shift # past value
             ;;
+        -h|--home)
+            HOME_DIR_ROOT="$2"
+            HOME_DIR_USER="$2"
+            shift # past argument
+            shift # past value
+            ;;
         --)
             shift # remove "--"
             APP_EXEC="$@"
@@ -58,36 +69,41 @@ if [ -z "$APP_EXEC" ]; then
     exit 127
 fi
 
-CURRENT_USER_ID=$(id -u)
 SET_UID_GID=""
-# Only root can descalate privelages
+# Only root can descalate privelage
+# and only descalate if we're not forcing root
 # if a user specifies the new USER_ID feature of docker, we also don't want to descalate
-if [ "$CURRENT_USER_ID" -eq "0" ]; then
+if [ "$CURRENT_USER_ID" -eq "0" ] && [ "$RUN_AS_ROOT" -eq "0" ]; then
 
-    # Only descalate if we have not specified to run as root
-    if [ "$RUN_AS_ROOT" -eq "0" ]; then
+    if [ -z "$USER_ID" ]; then
+        echo "uid has not been set"
+        exit 1;
+    fi
 
-        if [ -z "$USER_ID" ]; then
-            echo "uid has not been set"
-            exit 1;
-        fi
+    if [ -z "$GROUP_ID" ]; then
+        echo "gid has not been set"
+        exit 1;
+    fi
 
-        if [ -z "$GROUP_ID" ]; then
-            echo "gid has not been set"
-            exit 1;
-        fi
+    if [ "$USER_ID" -eq "0" ]; then
+        echo "uid cannot be 0"
+        exit 1;
+    fi
 
-        if [ "$USER_ID" -eq "0" ]; then
-            echo "uid cannot be 0"
-            exit 1;
-        fi
+    if [ -n "${GROUP_ID_LIST:-}" ]; then
+        SET_UID_GID="s6-applyuidgid -u $USER_ID -g $GROUP_ID -G $GROUP_ID_LIST"
+    else
+        SET_UID_GID="s6-setuidgid $USER_ID:$GROUP_ID"
+    fi
 
-        if [ -n "${GROUP_ID_LIST:-}" ]; then
-            SET_UID_GID="s6-applyuidgid -u $USER_ID -g $GROUP_ID -G $GROUP_ID_LIST"
-        else
-            SET_UID_GID="s6-setuidgid $USER_ID:$GROUP_ID"
-        fi
+    if [ -n "$HOME_DIR_USER" ]; then
+        export HOME="$HOME_DIR_USER"
+    fi
+else
+    if [ -n "$HOME_DIR_ROOT" ]; then
+        export HOME="$HOME_DIR_ROOT"
     fi
 fi
+
 
 exec 2>&1 $SET_UID_GID $APP_EXEC

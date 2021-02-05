@@ -6,6 +6,8 @@ export TZ=${TZ:-Europe/London}
 export UMASK=${UMASK:-0022}
 export USERNAME=${USERNAME:-app}
 export USERGROUP=${USERGROUP:-app}
+export HOME_ROOT="${HOME_ROOT:-/root/}"
+export HOME_USER="${HOME_USER:-/home/$USERNAME}"
 
 if command -v /bin/s6-dumpenv > /dev/null
 then

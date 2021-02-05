@@ -26,6 +26,8 @@ RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/r
 | ENV                 | DESCRIPTION                                        | DEFAULT       |
 |---------------------|----------------------------------------------------|---------------|
 | CMD_AS_ROOT         | Run the CMD as root user                           | 0             |
+| HOME_ROOT           | Set the home directory of the root user            | /root         |
+| HOME_USER           | Set the home directory of the descalated user      | /home/app     |
 | PUID                | User ID of the internal non-root user              | 911           |
 | PGID                | Group ID of the internal non-root group            | 911           |
 | PGID_LIST           | Group IDs list to pass to s6-setuidgid             |               |
