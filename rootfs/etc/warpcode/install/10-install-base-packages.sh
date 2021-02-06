@@ -1,10 +1,17 @@
 #!/usr/bin/env sh
 
 PACKAGES=""
-PACKAGES="${PACKAGES} bash"
 PACKAGES="${PACKAGES} ca-certificates"
-PACKAGES="${PACKAGES} curl"
 PACKAGES="${PACKAGES} tzdata"
+
+if ! command -v curl > /dev/null; then
+    PACKAGES="${PACKAGES} curl"
+fi
+
+if ! command -v bash > /dev/null; then
+    PACKAGES="${PACKAGES} bash"
+fi
+
 
 #
 # Install base packages
@@ -12,12 +19,23 @@ PACKAGES="${PACKAGES} tzdata"
 if command -v apk > /dev/null
 then
     PACKAGES="${PACKAGES} shadow"
-    PACKAGES="${PACKAGES} ${EXTRA_PACKAGES_APK}"
+
+    if [ -n "${EXTRA_PACKAGES_APK:-}" ]; then
+        PACKAGES="${PACKAGES} ${EXTRA_PACKAGES_APK}"
+    fi
 elif  command -v apt-get > /dev/null
 then
-    PACKAGES="${PACKAGES} ${EXTRA_PACKAGES_APT}"
-
+    if [ -n "${EXTRA_PACKAGES_APT:-}" ]; then
+        PACKAGES="${PACKAGES} ${EXTRA_PACKAGES_APT}"
+    fi
 fi
 
-PACKAGES="${PACKAGES} ${EXTRA_PACKAGES}"
-pkg_install $PACKAGES
+if [ -n "${EXTRA_PACKAGES:-}" ]; then
+    PACKAGES="${PACKAGES} ${EXTRA_PACKAGES}"
+fi
+
+
+if [ -n "$PACKAGES" ]; then
+    pkg_install $PACKAGES
+fi
+
