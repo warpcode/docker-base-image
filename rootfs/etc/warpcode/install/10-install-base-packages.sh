@@ -5,7 +5,9 @@ PACKAGES="${PACKAGES} ca-certificates"
 PACKAGES="${PACKAGES} tzdata"
 
 if ! command -v curl > /dev/null; then
-    PACKAGES="${PACKAGES} curl"
+    if ! command -v wget > /dev/null; then
+        PACKAGES="${PACKAGES} wget"
+    fi
 fi
 
 if ! command -v bash > /dev/null; then
