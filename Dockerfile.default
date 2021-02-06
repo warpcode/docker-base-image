@@ -1,11 +1,13 @@
 ARG BASE_IMAGE=
 FROM ${BASE_IMAGE}
 
-ENV EXTRA_PACKAGES_APK=lynx
-ENV EXTRA_PACKAGES_APT=lynx
+ARG EXTRA_PACKAGES_APK=lynx \
+    EXTRA_PACKAGES_APT=lynx
+
+# ENV S6_LOGGING=1 \
+#     S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 COPY ./release.tar.gz /tmp
 RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/release.tar.gz
 
-# ENTRYPOINT ["/entrypoint-user"]
 ENTRYPOINT ["/entrypoint"]

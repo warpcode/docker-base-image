@@ -35,5 +35,4 @@ User name:   $USERNAME
 User uid:    $(id -u "$USERNAME")
 User group:  $USERGROUP
 User gid:    $(id -g "$USERGROUP")
--------------------------------------
 "

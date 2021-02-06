@@ -39,7 +39,7 @@ define build_tests_template =
             -e TZ=UTC \
             -e UMASK=0002 \
             "$$$${DOCKER_USER}/$$$${DOCKER_DEST_IMAGE}" \
-            /bin/sh
+            /bin/bash
 
     build-test-$(1): release
 	    @source "versions/$(1)"; \

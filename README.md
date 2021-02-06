@@ -23,12 +23,25 @@ RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/r
 ```
 
 ## Environment Variables
-| ENV   | DESCRIPTION                             | DEFAULT       |
-|-------|-----------------------------------------|---------------|
-| PUID  | User ID of the internal non-root user   | 911           |
-| PGID  | Group ID of the internal non-root group | 911           |
-| TZ    | Set the timezone                        | Europe/London |
-| UMASK | Set the default umask                   | 0022          |
+| ENV                 | DESCRIPTION                                        | DEFAULT       |
+|---------------------|----------------------------------------------------|---------------|
+| CLEAN_TMP_DIR       | Empty /tmp on container startup.                   | 1             |
+| CMD_AS_ROOT         | Run the CMD as root user                           | 0             |
+| HOME_ROOT           | Set the home directory of the root user            | /root         |
+| HOME_USER           | Set the home directory of the de-escalated user    | /home/app     |
+| PUID                | User ID of the internal non-root user              | 911           |
+| PGID                | Group ID of the internal non-root group            | 911           |
+| PGID_LIST           | Group IDs list to pass to s6-setuidgid             |               |
+| TZ                  | Set the timezone                                   | Europe/London |
+| UMASK               | Set the default umask                              | 0022          |
+
+
+## Overriden S6 Variables
+| ENV                          | DESCRIPTION                                | DEFAULT      |
+|------------------------------|--------------------------------------------|--------------|
+| S6_BEHAVIOUR_IF_STAGE2_FAILS | Changed to fail when our app service fails | 2            |
+| S6_LOGGING                   | Changed when a CMD is detected             | 1 (With CMD) |
+
 
 ## Install only Environment Variables
 | ENV                | DESCRIPTION                                             | DEFAULT       |
@@ -41,10 +54,29 @@ RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/r
 ### /entrypoint
 `/entrypoint` is the default entry point.
 
-### /entrypoint-user
-`/entrypoint-user` is an entrypoint designed for applications you want to run as general user other than root.
 
 ## Binaries
+
+### finish-service
+Only to be called by the root user. The main purpose is to be ran inside the `finish` script of a service that would bring down a container.
+
+You can specify an exit code to force an exit code into `S6_STAGE2_EXITED` but this should only be called if you have
+a main service.
+
+Example usage
+```
+exec /usr/bin/finish-service -e 127 -s myapp
+```
+
+### run-app
+A convenient wrapper around s6-applyuidgid and s6-setuidgid. When no uid or gid is supplied, the command is ran directly.
+
+However, when a uid and gid is supplied, it will set the running user to the supplied uid and gid
+
+Example usage
+```
+exec  /usr/bin/run-app -u 1000 -g 1000 -- id -u
+```
 
 ### pkg_install
 Included is a simple wrapper around the systems package manager to install packages
@@ -57,3 +89,18 @@ For example, the below is how to install lastpass-cli on alpine images
 RUN pkg_install lastpass-cli
 ```
 
+### run-cmd
+This adds a middle step for s6's /init when running commands via CMD.
+
+When a CMD is detected, it is written to an environment variable which can be altered like any other environment variable.
+
+The /init system will call run-cmd to handle whether to run the CMD as the root user or de-escalate priveleges
+
+## S6 Overlay Documentation
+* Make sure to read the [S6 overlay documentation].  It contains information
+that can help building your image.  For example, the S6 overlay allows you to
+easily add initialization scripts and services.
+
+[S6 overlay documentation]: https://github.com/just-containers/s6-overlay/blob/master/README.md
+
+[TimeZone]: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones

@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv bash
+# vim: set ft=sh :
+
+if [ -z "$RUN_CMD" ]; then
+    echo "RUN_CMD not set"
+    exit 127
+fi
+
+exec 2>&1 run-app -e -- $RUN_CMD
