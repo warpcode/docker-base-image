@@ -1,0 +1,12 @@
+#!/usr/bin/with-contenv sh
+# vim: set ft=sh :
+
+# Use either curl or wget to grab the url and print to stdout
+
+if command -v curl > /dev/null; then
+    exec curl -kfLo "$@"
+elif command -v wget > /dev/null; then
+    exec wget -qO- "$@"
+else
+    exit 127
+fi
