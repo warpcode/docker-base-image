@@ -11,4 +11,3 @@ COPY ./release.tar.gz /tmp
 RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/release.tar.gz
 
 ENTRYPOINT ["/entrypoint"]
-CMD ["sh"]
