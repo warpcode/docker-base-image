@@ -38,6 +38,6 @@ fi
 
 
 if [ -n "$PACKAGES" ]; then
-    pkg_install $PACKAGES
+    pkg-install $PACKAGES
 fi
 
