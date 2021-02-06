@@ -78,10 +78,10 @@ Example usage
 exec  /usr/bin/run-app -u 1000 -g 1000 -- id -u
 ```
 
-### pkg_install
+### pkg-install
 Included is a simple wrapper around the systems package manager to install packages
 
-This script will also run `pkg_clean` automatically to clean up any package manager caches
+This script will also run `pkg-clean` automatically to clean up any package manager caches
 
 For example, the below is how to install lastpass-cli on alpine images
 
