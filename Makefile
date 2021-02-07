@@ -10,6 +10,9 @@ DOCKER_BASE_IMAGE_DEFAULT := $(DOCKER_BASE_IMAGE)
 DOCKER_DEST_IMAGE := alpine:latest
 DOCKER_CLI_EXPERIMENTAL := enabled
 VERSION_FILES := $(notdir $(wildcard versions/*))
+
+# Platforms = linux/amd64,linux/arm/v7,linux/arm64
+DOCKER_TEST_PLATFORM := "linux/amd64,linux/arm/v7,linux/arm64"
 export DOCKER_CLI_EXPERIMENTAL
 
 .PHONY: release build-test-all $(addprefix build-test-,$(VERSION_FILES)) $(addprefix build-docker-load-,$(VERSION_FILES))
@@ -48,7 +51,7 @@ define build_tests_template =
             --pull \
             -f "Dockerfile.$$$${DOCKER_FILE}" \
             -t "$$$${DOCKER_USER}/$$$${DOCKER_DEST_IMAGE}" \
-            --platform="linux/amd64,linux/arm/v7,linux/arm64" \
+            --platform="$$(DOCKER_TEST_PLATFORM)" \
             --build-arg BASE_IMAGE="$$$${DOCKER_BASE_IMAGE}" \
             .
 
