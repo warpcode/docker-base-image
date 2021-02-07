@@ -6,7 +6,7 @@ PACKAGES="${PACKAGES} tzdata"
 
 if ! command -v curl > /dev/null; then
     if ! command -v wget > /dev/null; then
-        PACKAGES="${PACKAGES} wget"
+        PACKAGES="${PACKAGES} curl"
     fi
 fi
 
