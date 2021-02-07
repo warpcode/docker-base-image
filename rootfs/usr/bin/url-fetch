@@ -3,9 +3,17 @@
 
 # Use either curl or wget to grab the url and print to stdout
 if command -v curl > /dev/null; then
-    exec curl -skfLo "$@"
+    OPTIONS=""
+    if [ -n "$URL_FETCH_IGNORE_CERTS" ] && [ "$URL_FETCH_IGNORE_CERTS" -eq "1" ]; then
+        OPTIONS="-k"
+    fi
+    exec curl $OPTIONS -s -f -L "$@"
 elif command -v wget > /dev/null; then
-    exec wget -qO- "$@"
+    OPTIONS=""
+    if [ -n "$URL_FETCH_IGNORE_CERTS" ] && [ "$URL_FETCH_IGNORE_CERTS" -eq "1" ]; then
+        OPTIONS="--no-check-certificate"
+    fi
+    exec wget $OPTIONS -q -O- "$@"
 else
     exit 127
 fi

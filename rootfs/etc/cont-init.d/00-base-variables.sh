@@ -8,6 +8,7 @@ export USERNAME=${USERNAME:-app}
 export USERGROUP=${USERGROUP:-app}
 export HOME_ROOT="${HOME_ROOT:-/root/}"
 export HOME_USER="${HOME_USER:-/home/$USERNAME}"
+export URL_FETCH_IGNORE_CERTS=${URL_FETCH_IGNORE_CERTS:-0}
 
 if command -v /bin/s6-dumpenv > /dev/null
 then

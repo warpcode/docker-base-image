@@ -23,17 +23,18 @@ RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/r
 ```
 
 ## Environment Variables
-| ENV                 | DESCRIPTION                                        | DEFAULT       |
-|---------------------|----------------------------------------------------|---------------|
-| CLEAN_TMP_DIR       | Empty /tmp on container startup.                   | 1             |
-| CMD_AS_ROOT         | Run the CMD as root user                           | 0             |
-| HOME_ROOT           | Set the home directory of the root user            | /root         |
-| HOME_USER           | Set the home directory of the de-escalated user    | /home/app     |
-| PUID                | User ID of the internal non-root user              | 911           |
-| PGID                | Group ID of the internal non-root group            | 911           |
-| PGID_LIST           | Group IDs list to pass to s6-setuidgid             |               |
-| TZ                  | Set the timezone                                   | Europe/London |
-| UMASK               | Set the default umask                              | 0022          |
+| ENV                    | DESCRIPTION                                                                      | DEFAULT       |
+|------------------------|----------------------------------------------------------------------------------|---------------|
+| CLEAN_TMP_DIR          | Empty /tmp on container startup.                                                 | 1             |
+| CMD_AS_ROOT            | Run the CMD as root user                                                         | 0             |
+| HOME_ROOT              | Set the home directory of the root user                                          | /root         |
+| HOME_USER              | Set the home directory of the de-escalated user                                  | /home/app     |
+| PUID                   | User ID of the internal non-root user                                            | 911           |
+| PGID                   | Group ID of the internal non-root group                                          | 911           |
+| PGID_LIST              | Group IDs list to pass to s6-setuidgid                                           |               |
+| TZ                     | Set the timezone                                                                 | Europe/London |
+| UMASK                  | Set the default umask                                                            | 0022          |
+| URL_FETCH_IGNORE_CERTS | Ignore certs on the url-fetch script. This can be required for some base images. | 0
 
 
 ## Overriden S6 Variables
