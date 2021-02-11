@@ -25,7 +25,6 @@ RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/r
 ## Environment Variables
 | ENV                    | DESCRIPTION                                                                      | DEFAULT       |
 |------------------------|----------------------------------------------------------------------------------|---------------|
-| CLEAN_TMP_DIR          | Empty /tmp on container startup.                                                 | 1             |
 | CMD_AS_ROOT            | Run the CMD as root user                                                         | 0             |
 | HOME_ROOT              | Set the home directory of the root user                                          | /root         |
 | HOME_USER              | Set the home directory of the de-escalated user                                  | /home/app     |
