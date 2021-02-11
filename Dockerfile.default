@@ -2,9 +2,12 @@ ARG BASE_IMAGE=
 FROM ${BASE_IMAGE}
 
 ENV TZ=UTC \
-    URL_FETCH_IGNORE_CERTS=1
+    URL_FETCH_IGNORE_CERTS=1 \
+    HOME_ROOT=/config \
+    HOME_USER=/config
 
 COPY ./release.tar.gz /tmp
 RUN tar xzf /tmp/release.tar.gz -C / && /etc/warpcode/install.sh && rm -f /tmp/release.tar.gz
 
+WORKDIR /data
 ENTRYPOINT ["/entrypoint"]
