@@ -36,3 +36,7 @@ fi
 
 echo "Cleaning up"
 rm /tmp/s6-overlay.tar.gz
+
+# Create the container environment dir so we can run scripts
+# using with-contenv
+/bin/s6-mkdir -pm 0755 -- /var/run/s6/container_environment

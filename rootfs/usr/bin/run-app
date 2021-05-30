@@ -1,6 +1,9 @@
 #!/usr/bin/with-contenv bash
 # vim: set ft=sh :
 
+export SUPPRESS_BASE_VAR_DUMPENV=1
+source '/etc/cont-init.d/00-base-variables.sh'
+
 CURRENT_USER_ID=$(id -u)
 FROM_ENV=0
 APP_EXEC=()
