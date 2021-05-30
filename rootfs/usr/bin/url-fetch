@@ -1,19 +1,44 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # vim: set ft=sh :
+
+URL_EXEC=()
+IGNORE_CERTS=0
+
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        -n|--no-certificates)
+            # Set vars from environment vars
+            IGNORE_CERTS=1
+            shift # past argument
+            ;;
+        --)
+            shift # remove "--"
+            URL_EXEC="$@"
+            break # once we hit --, we determine this as being the end of our args
+            ;;
+        *) # unknown option
+            URL_EXEC+=("$1") # save it in an array for later
+            shift
+            ;;
+    esac
+done
 
 # Use either curl or wget to grab the url and print to stdout
 if command -v curl > /dev/null; then
     OPTIONS=""
-    if [ -n "$URL_FETCH_IGNORE_CERTS" ] && [ "$URL_FETCH_IGNORE_CERTS" -eq "1" ]; then
+    if [ "$IGNORE_CERTS" -eq "1" ]; then
         OPTIONS="-k"
     fi
-    exec curl $OPTIONS -s -f -L "$@"
+    exec curl $OPTIONS -s -f -L "$URL_EXEC"
 elif command -v wget > /dev/null; then
     OPTIONS=""
-    if [ -n "$URL_FETCH_IGNORE_CERTS" ] && [ "$URL_FETCH_IGNORE_CERTS" -eq "1" ]; then
+    if [ "$IGNORE_CERTS" -eq "1" ]; then
         OPTIONS="--no-check-certificate"
     fi
-    exec wget $OPTIONS -q -O- "$@"
+    exec wget $OPTIONS -q -O- "$URL_EXEC"
 else
     exit 127
 fi
