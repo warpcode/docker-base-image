@@ -4,9 +4,6 @@
 This repository is to store a base installer for common utilities for docker containers.
 It is a very minimal set of scripts to accomplish some common tasks.
 
-## Supported Images
-These scripts were tested on alpine, debian and ubuntu official images.
-
 ## Tested Images
 | IMAGE         | amd64   | arm64   | arm/v7 (armhf) |
 |---------------|---------|---------|----------------|
