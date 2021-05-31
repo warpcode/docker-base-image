@@ -1,2 +1,2 @@
-DOCKER_BASE_IMAGE=debian:latest
+DOCKER_BASE_IMAGE=centos:latest
 DOCKER_TEST_PLATFORM=linux/amd64,linux/arm64

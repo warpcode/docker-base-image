@@ -7,20 +7,16 @@ It is a very minimal set of scripts to accomplish some common tasks.
 ## Supported Images
 These scripts were tested on alpine, debian and ubuntu official images.
 
-## Tested Architectures
-* x86-64
-* arm64
-* armhf
-
 ## Tested Images
-| IMAGE                  | DESCRIPTION                                                                                        |
-|------------------------|----------------------------------------------------------------------------------------------------|
-| alpine:edge            | No issues                                                                                          |
-| alpine:latest          | No issues                                                                                          |
-| debian:latest          | armv7 fails due to ca-certificates issue when using wget or curl. No issues on other architectures |
-| ubuntu:18.04           | No issues                                                                                          |
-| ubuntu:20.04           | No issues                                                                                          |
-| ubuntu:latest          | No issues                                                                                          |
+| IMAGE         | amd64  | arm64  | arm/v7 (armhf) |
+|---------------|--------|--------|----------------|
+| alpine:edge   | &tick; | &tick; | &tick;         |
+| alpine:latest | &tick; | &tick; | &tick;         |
+| centos:latest | &tick; | &tick; | &cross;        |
+| debian:latest | &tick; | &tick; | &cross;        |
+| ubuntu:18.04  | &tick; | &tick; | &tick;         |
+| ubuntu:20.04  | &tick; | &tick; | &tick;         |
+| ubuntu:latest | &tick; | &tick; | &tick;         |
 
 This script is tested using Docker's Buildx CLI plugin to test multiple architectures
 

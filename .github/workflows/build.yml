@@ -36,6 +36,19 @@ jobs:
       - name: Build the base images
         run: |
           make build-test-alpine-edge
+  build_centos_latest:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: install buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          buildx-version: latest
+      - name: Build the base images
+        run: |
+          make build-test-centos-latest
   build_debian_latest:
     runs-on: ubuntu-18.04
     steps:
@@ -48,7 +61,7 @@ jobs:
           buildx-version: latest
       - name: Build the base images
         run: |
-          make build-test-debian-latest DOCKER_TEST_PLATFORM=linux/amd64,linux/arm64
+          make build-test-debian-latest
   build_ubuntu_latest:
     runs-on: ubuntu-18.04
     steps:
