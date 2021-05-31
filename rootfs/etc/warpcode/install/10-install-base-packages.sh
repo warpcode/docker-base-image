@@ -7,7 +7,13 @@ PACKAGES="${PACKAGES} tzdata"
 if ! command -v curl > /dev/null; then
     if ! command -v wget > /dev/null; then
         PACKAGES="${PACKAGES} curl"
+    else
+        # Upgrade
+        PACKAGES="${PACKAGES} wget"
     fi
+else
+    # Upgrade
+    PACKAGES="${PACKAGES} curl"
 fi
 
 if ! command -v bash > /dev/null; then
