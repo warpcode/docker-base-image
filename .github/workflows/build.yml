@@ -9,7 +9,7 @@ on:
       - Makefile
 
 jobs:
-  build:
+  build_alpine_latest:
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
@@ -21,4 +21,69 @@ jobs:
           buildx-version: latest
       - name: Build the base images
         run: |
-          make build-test-all
+          make build-test-alpine-latest
+  build_alpine_edge:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: install buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          buildx-version: latest
+      - name: Build the base images
+        run: |
+          make build-test-alpine-edge
+  build_debian_latest:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: install buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          buildx-version: latest
+      - name: Build the base images
+        run: |
+          make build-test-debian-latest
+  build_ubuntu_latest:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: install buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          buildx-version: latest
+      - name: Build the base images
+        run: |
+          make build-test-ubuntu-latest
+  build_ubuntu_20_04:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: install buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          buildx-version: latest
+      - name: Build the base images
+        run: |
+          make build-test-ubuntu-20-04
+  build_ubuntu_18_04:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: install buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          buildx-version: latest
+      - name: Build the base images
+        run: |
+          make build-test-ubuntu-18-04
