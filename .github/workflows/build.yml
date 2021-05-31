@@ -5,8 +5,9 @@ on:
     branches: master
     paths:
       - Dockerfile.*
-      - rootfs/**
       - Makefile
+      - rootfs/**
+      - versions/**
 
 jobs:
   build_alpine_latest:
