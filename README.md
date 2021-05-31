@@ -8,15 +8,15 @@ It is a very minimal set of scripts to accomplish some common tasks.
 These scripts were tested on alpine, debian and ubuntu official images.
 
 ## Tested Images
-| IMAGE         | amd64  | arm64  | arm/v7 (armhf) |
-|---------------|--------|--------|----------------|
-| alpine:edge   | &tick; | &tick; | &tick;         |
-| alpine:latest | &tick; | &tick; | &tick;         |
-| centos:latest | &tick; | &tick; | &cross;        |
-| debian:latest | &tick; | &tick; | &cross;        |
-| ubuntu:18.04  | &tick; | &tick; | &tick;         |
-| ubuntu:20.04  | &tick; | &tick; | &tick;         |
-| ubuntu:latest | &tick; | &tick; | &tick;         |
+| IMAGE         | amd64   | arm64   | arm/v7 (armhf) |
+|---------------|---------|---------|----------------|
+| alpine:edge   | &check; | &check; | &check;        |
+| alpine:latest | &check; | &check; | &check;        |
+| centos:latest | &check; | &check; | &cross;        |
+| debian:latest | &check; | &check; | &cross;        |
+| ubuntu:18.04  | &check; | &check; | &check;        |
+| ubuntu:20.04  | &check; | &check; | &check;        |
+| ubuntu:latest | &check; | &check; | &check;        |
 
 This script is tested using Docker's Buildx CLI plugin to test multiple architectures
 
